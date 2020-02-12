@@ -7,11 +7,22 @@ from hashtables import (HashTable,
 
 
 def get_indices_of_item_weights(weights, length, limit):
-    ht = HashTable(16)
+    ht = HashTable(16)#given already
 
     """
     YOUR CODE HERE
     """
+    #print("here",weights, length, limit)
+    #weights is an array of weights;get index of the pair.... that will be limit-weight we arev looping through, so if 16 is limit and first weight in array is 5 then 16-5=8 ,
+    # e have to look for 8 if its there then index of 8
+    for i in range(length):
+        index= hash_table_retrieve(ht, (limit-weights[i]))
+        print("i am index",index)
+        if index != None:
+            return((i,index))
+        hash_table_insert(ht,weights[i],i)
+        print("WEIGHT AND INDEX are respectively",weights[i],i)
+
 
     return None
 

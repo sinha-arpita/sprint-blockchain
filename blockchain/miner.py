@@ -7,10 +7,10 @@ from uuid import uuid4
 
 from timeit import default_timer as timer
 
-import random
+from random import randint
 
 
-def proof_of_work(last_proof):
+def proof_of_work(last_proof):#get this lastproof from the server
     """
     Multi-Ouroboros of Work Algorithm
     - Find a number p' such that the last six digits of hash(p) are equal
@@ -23,11 +23,21 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
+    proof = last_proof*randint(0,100)
     #  TODO: Your code here
+    last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()#f''and str are same
 
-    print("Proof found: " + str(proof) + " in " + str(timer() - start))
+
+    while valid_proof(last_hash,proof)is False:
+
+        proof+=1
+    print("Proof found: " + str(proof) + " in " + str(timer() - start))  # given
     return proof
+
+
+
+
+
 
 
 def valid_proof(last_hash, proof):
@@ -40,7 +50,8 @@ def valid_proof(last_hash, proof):
     """
 
     # TODO: Your code here!
-    pass
+    new_hash=hashlib.sha256(str(proof).encode()).hexdigest()
+    return last_hash[-6:]==new_hash[:6]
 
 
 if __name__ == '__main__':
